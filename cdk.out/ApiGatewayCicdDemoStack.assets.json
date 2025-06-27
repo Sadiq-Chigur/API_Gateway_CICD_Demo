@@ -1,0 +1,36 @@
+{
+  "version": "44.0.0",
+  "files": {
+    "1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9": {
+      "displayName": "hellohandlerFn/Code",
+      "source": {
+        "path": "asset.1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    },
+    "4513120fc013c0114044f4a64bb26b4f66d6fc77bc92014e353b87d960d3cbda": {
+      "displayName": "ApiGatewayCicdDemoStack Template",
+      "source": {
+        "path": "ApiGatewayCicdDemoStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "4513120fc013c0114044f4a64bb26b4f66d6fc77bc92014e353b87d960d3cbda.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

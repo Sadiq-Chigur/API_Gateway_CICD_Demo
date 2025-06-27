@@ -1,0 +1,8 @@
+{
+  "REPLACE_HELLO_URI": "hello.handler",
+  "REPLACE_STATUS_URI": "status.handler",
+  "REPLACE_USER_POST_URI": "user-post.handler",
+  "REPLACE_USER_GET_URI": "user-get.handler",
+  "REPLACE_PRODUCTS_GET_URI": "products-get.handler",
+  "REPLACE_PRODUCTS_POST_URI": "products-post.handler"
+}
