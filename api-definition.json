@@ -1,0 +1,85 @@
+
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Extended API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/hello": {
+      "get": {
+        "summary": "Hello World",
+        "responses": { "200": { "description": "OK" } },
+        "x-amazon-apigateway-integration": {
+          "uri": "REPLACE_HELLO_URI",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "summary": "Create user",
+        "responses": { "201": { "description": "User created" } },
+        "x-amazon-apigateway-integration": {
+          "uri": "REPLACE_USER_POST_URI",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "summary": "Get user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "User found" } },
+        "x-amazon-apigateway-integration": {
+          "uri": "REPLACE_USER_GET_URI",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "summary": "List products",
+        "responses": { "200": { "description": "Product list" } },
+        "x-amazon-apigateway-integration": {
+          "uri": "REPLACE_PRODUCTS_GET_URI",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      },
+      "post": {
+        "summary": "Create product",
+        "responses": { "201": { "description": "Product created" } },
+        "x-amazon-apigateway-integration": {
+          "uri": "REPLACE_PRODUCTS_POST_URI",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      }
+    },
+    "/status": {
+      "get": {
+        "summary": "Service status",
+        "responses": { "200": { "description": "Service status" } },
+        "x-amazon-apigateway-integration": {
+          "uri": "REPLACE_STATUS_URI",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      }
+    }
+  }
+}
+*/
+
+

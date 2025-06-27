@@ -1,0 +1,920 @@
+{
+ "Resources": {
+  "hellohandlerFnServiceRoleCA4858C7": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/hellohandlerFn/ServiceRole/Resource"
+   }
+  },
+  "hellohandlerFnE0661590": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9.zip"
+    },
+    "Handler": "hello.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "hellohandlerFnServiceRoleCA4858C7",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x"
+   },
+   "DependsOn": [
+    "hellohandlerFnServiceRoleCA4858C7"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/hellohandlerFn/Resource",
+    "aws:asset:path": "asset.1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "hellohandlerFnLogGroup22CD15A4": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "hellohandlerFnE0661590"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/hellohandlerFn/LogGroup/Resource"
+   }
+  },
+  "hellohandlerFnInvokeFcyXBRX02EWa52GlFECQiCzDt0fdRUDi4mo4foC5aU0E1805E9": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "hellohandlerFnE0661590",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/hellohandlerFn/InvokeFcyXBRX02EWa52GlF+ECQiCzDt0fdRUDi4mo4foC5aU="
+   }
+  },
+  "statushandlerFnServiceRole0C98E440": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/statushandlerFn/ServiceRole/Resource"
+   }
+  },
+  "statushandlerFn5E06BEF6": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9.zip"
+    },
+    "Handler": "status.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "statushandlerFnServiceRole0C98E440",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x"
+   },
+   "DependsOn": [
+    "statushandlerFnServiceRole0C98E440"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/statushandlerFn/Resource",
+    "aws:asset:path": "asset.1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "statushandlerFnLogGroup8B4712FC": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "statushandlerFn5E06BEF6"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/statushandlerFn/LogGroup/Resource"
+   }
+  },
+  "statushandlerFnInvokeFcyXBRX02EWa52GlFECQiCzDt0fdRUDi4mo4foC5aU35790A53": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "statushandlerFn5E06BEF6",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/statushandlerFn/InvokeFcyXBRX02EWa52GlF+ECQiCzDt0fdRUDi4mo4foC5aU="
+   }
+  },
+  "userposthandlerFnServiceRole4784D6AC": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/userposthandlerFn/ServiceRole/Resource"
+   }
+  },
+  "userposthandlerFn2EABDA1A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9.zip"
+    },
+    "Handler": "user-post.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "userposthandlerFnServiceRole4784D6AC",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x"
+   },
+   "DependsOn": [
+    "userposthandlerFnServiceRole4784D6AC"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/userposthandlerFn/Resource",
+    "aws:asset:path": "asset.1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "userposthandlerFnLogGroupCF54881C": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "userposthandlerFn2EABDA1A"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/userposthandlerFn/LogGroup/Resource"
+   }
+  },
+  "userposthandlerFnInvokeFcyXBRX02EWa52GlFECQiCzDt0fdRUDi4mo4foC5aUDBA65912": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "userposthandlerFn2EABDA1A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/userposthandlerFn/InvokeFcyXBRX02EWa52GlF+ECQiCzDt0fdRUDi4mo4foC5aU="
+   }
+  },
+  "usergethandlerFnServiceRoleB68622B7": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/usergethandlerFn/ServiceRole/Resource"
+   }
+  },
+  "usergethandlerFnE1AC42EC": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9.zip"
+    },
+    "Handler": "user-get.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "usergethandlerFnServiceRoleB68622B7",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x"
+   },
+   "DependsOn": [
+    "usergethandlerFnServiceRoleB68622B7"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/usergethandlerFn/Resource",
+    "aws:asset:path": "asset.1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "usergethandlerFnLogGroupD3EE74F0": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "usergethandlerFnE1AC42EC"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/usergethandlerFn/LogGroup/Resource"
+   }
+  },
+  "usergethandlerFnInvokeFcyXBRX02EWa52GlFECQiCzDt0fdRUDi4mo4foC5aU127DF49C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "usergethandlerFnE1AC42EC",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/usergethandlerFn/InvokeFcyXBRX02EWa52GlF+ECQiCzDt0fdRUDi4mo4foC5aU="
+   }
+  },
+  "productsgethandlerFnServiceRoleA0EBAD3E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/productsgethandlerFn/ServiceRole/Resource"
+   }
+  },
+  "productsgethandlerFn236C2C5A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9.zip"
+    },
+    "Handler": "products-get.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "productsgethandlerFnServiceRoleA0EBAD3E",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x"
+   },
+   "DependsOn": [
+    "productsgethandlerFnServiceRoleA0EBAD3E"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/productsgethandlerFn/Resource",
+    "aws:asset:path": "asset.1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "productsgethandlerFnLogGroupFE0141A9": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "productsgethandlerFn236C2C5A"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/productsgethandlerFn/LogGroup/Resource"
+   }
+  },
+  "productsgethandlerFnInvokeFcyXBRX02EWa52GlFECQiCzDt0fdRUDi4mo4foC5aU9F5E3056": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "productsgethandlerFn236C2C5A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/productsgethandlerFn/InvokeFcyXBRX02EWa52GlF+ECQiCzDt0fdRUDi4mo4foC5aU="
+   }
+  },
+  "productsposthandlerFnServiceRole053E10BB": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/productsposthandlerFn/ServiceRole/Resource"
+   }
+  },
+  "productsposthandlerFn40DB8CDA": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9.zip"
+    },
+    "Handler": "products-post.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "productsposthandlerFnServiceRole053E10BB",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x"
+   },
+   "DependsOn": [
+    "productsposthandlerFnServiceRole053E10BB"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/productsposthandlerFn/Resource",
+    "aws:asset:path": "asset.1a00d01e5c83807ec83f160bd96ccf50e1cc7a9e0154219aa898075ed8ebd4c9",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "productsposthandlerFnLogGroupFA98CF04": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "productsposthandlerFn40DB8CDA"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/productsposthandlerFn/LogGroup/Resource"
+   }
+  },
+  "productsposthandlerFnInvokeFcyXBRX02EWa52GlFECQiCzDt0fdRUDi4mo4foC5aU5CC114B3": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "productsposthandlerFn40DB8CDA",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/productsposthandlerFn/InvokeFcyXBRX02EWa52GlF+ECQiCzDt0fdRUDi4mo4foC5aU="
+   }
+  },
+  "AutoGeneratedRestApiD4951901": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Body": {
+     "openapi": "3.0.1",
+     "info": {
+      "title": "Extended API",
+      "version": "1.0"
+     },
+     "paths": {
+      "/hello": {
+       "get": {
+        "summary": "Hello World",
+        "responses": {
+         "200": {
+          "description": "OK"
+         }
+        },
+        "x-amazon-apigateway-integration": {
+         "uri": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+            {
+             "Fn::GetAtt": [
+              "hellohandlerFnE0661590",
+              "Arn"
+             ]
+            },
+            "/invocations"
+           ]
+          ]
+         },
+         "httpMethod": "POST",
+         "type": "aws_proxy"
+        }
+       }
+      },
+      "/user": {
+       "post": {
+        "summary": "Create user",
+        "responses": {
+         "201": {
+          "description": "User created"
+         }
+        },
+        "x-amazon-apigateway-integration": {
+         "uri": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+            {
+             "Fn::GetAtt": [
+              "userposthandlerFn2EABDA1A",
+              "Arn"
+             ]
+            },
+            "/invocations"
+           ]
+          ]
+         },
+         "httpMethod": "POST",
+         "type": "aws_proxy"
+        }
+       }
+      },
+      "/user/{id}": {
+       "get": {
+        "summary": "Get user by ID",
+        "parameters": [
+         {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+           "type": "string"
+          }
+         }
+        ],
+        "responses": {
+         "200": {
+          "description": "User found"
+         }
+        },
+        "x-amazon-apigateway-integration": {
+         "uri": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+            {
+             "Fn::GetAtt": [
+              "usergethandlerFnE1AC42EC",
+              "Arn"
+             ]
+            },
+            "/invocations"
+           ]
+          ]
+         },
+         "httpMethod": "POST",
+         "type": "aws_proxy"
+        }
+       }
+      },
+      "/products": {
+       "get": {
+        "summary": "List products",
+        "responses": {
+         "200": {
+          "description": "Product list"
+         }
+        },
+        "x-amazon-apigateway-integration": {
+         "uri": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+            {
+             "Fn::GetAtt": [
+              "productsgethandlerFn236C2C5A",
+              "Arn"
+             ]
+            },
+            "/invocations"
+           ]
+          ]
+         },
+         "httpMethod": "POST",
+         "type": "aws_proxy"
+        }
+       },
+       "post": {
+        "summary": "Create product",
+        "responses": {
+         "201": {
+          "description": "Product created"
+         }
+        },
+        "x-amazon-apigateway-integration": {
+         "uri": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+            {
+             "Fn::GetAtt": [
+              "productsposthandlerFn40DB8CDA",
+              "Arn"
+             ]
+            },
+            "/invocations"
+           ]
+          ]
+         },
+         "httpMethod": "POST",
+         "type": "aws_proxy"
+        }
+       }
+      },
+      "/status": {
+       "get": {
+        "summary": "Service status",
+        "responses": {
+         "200": {
+          "description": "Service status"
+         }
+        },
+        "x-amazon-apigateway-integration": {
+         "uri": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+            {
+             "Fn::GetAtt": [
+              "statushandlerFn5E06BEF6",
+              "Arn"
+             ]
+            },
+            "/invocations"
+           ]
+          ]
+         },
+         "httpMethod": "POST",
+         "type": "aws_proxy"
+        }
+       }
+      }
+     }
+    },
+    "Name": "AutoGeneratedRestApi"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/AutoGeneratedRestApi/Resource"
+   }
+  },
+  "AutoGeneratedRestApiDeployment5A0A8480cbe40804f2d657af26c15fc84eb41226": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "Automatically created by the RestApi construct",
+    "RestApiId": {
+     "Ref": "AutoGeneratedRestApiD4951901"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/AutoGeneratedRestApi/Deployment/Resource"
+   }
+  },
+  "AutoGeneratedRestApiDeploymentStagedevC734BF74": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "AutoGeneratedRestApiDeployment5A0A8480cbe40804f2d657af26c15fc84eb41226"
+    },
+    "RestApiId": {
+     "Ref": "AutoGeneratedRestApiD4951901"
+    },
+    "StageName": "dev"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/AutoGeneratedRestApi/DeploymentStage.dev/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/+1UsW7bMBD9lnAMaNZxhgLe5AbtUjSBPQpCcCEv6sUSSfCoGgahfy9I03Ga7h2KDAJPj++9eziKWqnV8kYtr+DAC232i4GeVNpF0HsJB35MA4xPBlT6Olkdydk2iTDZSCOKtbgWUvwEawYM9U07c9qY5f9E7OSXZ3seQa4fMIzETM7OkmBUaesGbJMA5mlEszmKdRI+kNXkYWi0dpON1fbEyYKm+NUsYgQLPZoHN5AmZLFu0x/YsQmV2+XkH60+Wr1vVb7TbDFLvn0EZoysmrxIvlWbSe8xboCx7eTgelbpu+u/BTf5Nomhlj9gvFyPfwOW2OcoswRPPUQ8wFGlnUe9RY6Np3y9PN3hM1l6HZAUBv3gjvc+Q5znyxF6vJjXoZw85BbZTUFjmYK4Fp28K/oRbWyTMMg6kH9jD55qFTAC2Qud34S/oHKX2xerM1T173IVXSHP82ustjD/fjpZTjHTyfZZeT9FP8VZWmdQvfCnX6uVuvmsllcvTLSovzW1Pa2/AcwimkvmBQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayCicdDemoStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "AutoGeneratedRestApiEndpoint1CE0A279": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "AutoGeneratedRestApiD4951901"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "AutoGeneratedRestApiDeploymentStagedevC734BF74"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "APIEndpoint": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "AutoGeneratedRestApiD4951901"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "AutoGeneratedRestApiDeploymentStagedevC734BF74"
+      },
+      "/hello"
+     ]
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

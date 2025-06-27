@@ -1,0 +1,516 @@
+{
+  "version": "44.0.0",
+  "artifacts": {
+    "ApiGatewayCicdDemoStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ApiGatewayCicdDemoStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ApiGatewayCicdDemoStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/us-east-1",
+      "properties": {
+        "templateFile": "ApiGatewayCicdDemoStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1/4513120fc013c0114044f4a64bb26b4f66d6fc77bc92014e353b87d960d3cbda.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ApiGatewayCicdDemoStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "ApiGatewayCicdDemoStack.assets"
+      ],
+      "metadata": {
+        "/ApiGatewayCicdDemoStack/hellohandlerFn": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "runtime": "*",
+              "handler": "*",
+              "code": "*"
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/hellohandlerFn/ServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/hellohandlerFn/ServiceRole/ImportServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/hellohandlerFn/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "hellohandlerFnServiceRoleCA4858C7"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/hellohandlerFn/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "hellohandlerFnE0661590"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/hellohandlerFn/LogGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "logGroupName": "*"
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/hellohandlerFn/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "hellohandlerFnLogGroup22CD15A4"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/hellohandlerFn/InvokeFcyXBRX02EWa52GlF+ECQiCzDt0fdRUDi4mo4foC5aU=": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "hellohandlerFnInvokeFcyXBRX02EWa52GlFECQiCzDt0fdRUDi4mo4foC5aU0E1805E9"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/statushandlerFn": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "runtime": "*",
+              "handler": "*",
+              "code": "*"
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/statushandlerFn/ServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/statushandlerFn/ServiceRole/ImportServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/statushandlerFn/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "statushandlerFnServiceRole0C98E440"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/statushandlerFn/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "statushandlerFn5E06BEF6"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/statushandlerFn/LogGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "logGroupName": "*"
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/statushandlerFn/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "statushandlerFnLogGroup8B4712FC"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/statushandlerFn/InvokeFcyXBRX02EWa52GlF+ECQiCzDt0fdRUDi4mo4foC5aU=": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "statushandlerFnInvokeFcyXBRX02EWa52GlFECQiCzDt0fdRUDi4mo4foC5aU35790A53"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/userposthandlerFn": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "runtime": "*",
+              "handler": "*",
+              "code": "*"
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/userposthandlerFn/ServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/userposthandlerFn/ServiceRole/ImportServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/userposthandlerFn/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "userposthandlerFnServiceRole4784D6AC"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/userposthandlerFn/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "userposthandlerFn2EABDA1A"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/userposthandlerFn/LogGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "logGroupName": "*"
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/userposthandlerFn/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "userposthandlerFnLogGroupCF54881C"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/userposthandlerFn/InvokeFcyXBRX02EWa52GlF+ECQiCzDt0fdRUDi4mo4foC5aU=": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "userposthandlerFnInvokeFcyXBRX02EWa52GlFECQiCzDt0fdRUDi4mo4foC5aUDBA65912"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/usergethandlerFn": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "runtime": "*",
+              "handler": "*",
+              "code": "*"
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/usergethandlerFn/ServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/usergethandlerFn/ServiceRole/ImportServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/usergethandlerFn/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "usergethandlerFnServiceRoleB68622B7"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/usergethandlerFn/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "usergethandlerFnE1AC42EC"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/usergethandlerFn/LogGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "logGroupName": "*"
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/usergethandlerFn/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "usergethandlerFnLogGroupD3EE74F0"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/usergethandlerFn/InvokeFcyXBRX02EWa52GlF+ECQiCzDt0fdRUDi4mo4foC5aU=": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "usergethandlerFnInvokeFcyXBRX02EWa52GlFECQiCzDt0fdRUDi4mo4foC5aU127DF49C"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsgethandlerFn": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "runtime": "*",
+              "handler": "*",
+              "code": "*"
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsgethandlerFn/ServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsgethandlerFn/ServiceRole/ImportServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsgethandlerFn/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "productsgethandlerFnServiceRoleA0EBAD3E"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsgethandlerFn/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "productsgethandlerFn236C2C5A"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsgethandlerFn/LogGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "logGroupName": "*"
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsgethandlerFn/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "productsgethandlerFnLogGroupFE0141A9"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsgethandlerFn/InvokeFcyXBRX02EWa52GlF+ECQiCzDt0fdRUDi4mo4foC5aU=": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "productsgethandlerFnInvokeFcyXBRX02EWa52GlFECQiCzDt0fdRUDi4mo4foC5aU9F5E3056"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsposthandlerFn": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "runtime": "*",
+              "handler": "*",
+              "code": "*"
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsposthandlerFn/ServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsposthandlerFn/ServiceRole/ImportServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsposthandlerFn/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "productsposthandlerFnServiceRole053E10BB"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsposthandlerFn/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "productsposthandlerFn40DB8CDA"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsposthandlerFn/LogGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "logGroupName": "*"
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsposthandlerFn/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "productsposthandlerFnLogGroupFA98CF04"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/productsposthandlerFn/InvokeFcyXBRX02EWa52GlF+ECQiCzDt0fdRUDi4mo4foC5aU=": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "productsposthandlerFnInvokeFcyXBRX02EWa52GlFECQiCzDt0fdRUDi4mo4foC5aU5CC114B3"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/AutoGeneratedRestApi": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "apiDefinition": "*",
+              "deployOptions": {
+                "stageName": "*"
+              }
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/AutoGeneratedRestApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AutoGeneratedRestApiD4951901"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/AutoGeneratedRestApi/Default": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/AutoGeneratedRestApi/Deployment": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "description": "*",
+              "api": "*",
+              "retainDeployments": "*"
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/AutoGeneratedRestApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AutoGeneratedRestApiDeployment5A0A8480cbe40804f2d657af26c15fc84eb41226"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/AutoGeneratedRestApi/DeploymentStage.dev": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "deployment": "*",
+              "stageName": "*"
+            }
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/AutoGeneratedRestApi/DeploymentStage.dev/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AutoGeneratedRestApiDeploymentStagedevC734BF74"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/AutoGeneratedRestApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AutoGeneratedRestApiEndpoint1CE0A279"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/APIEndpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "APIEndpoint"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/ApiGatewayCicdDemoStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "ApiGatewayCicdDemoStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  },
+  "minimumCliVersion": "2.1019.2"
+}
