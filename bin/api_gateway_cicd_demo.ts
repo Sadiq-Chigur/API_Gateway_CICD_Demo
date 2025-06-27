@@ -3,6 +3,10 @@ import * as cdk from 'aws-cdk-lib';
 import { ApiGatewayCicdDemoStack } from '../lib/api_gateway_cicd_demo-stack';
 
 const app = new cdk.App();
+
+const envName = app.node.tryGetContext('env') || 'dev';
+const config = app.node.tryGetContext('environments')[envName];
+
 new ApiGatewayCicdDemoStack(app, 'ApiGatewayCicdDemoStack', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
@@ -18,6 +22,13 @@ new ApiGatewayCicdDemoStack(app, 'ApiGatewayCicdDemoStack', {
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
 
-  env: { region: 'us-east-1' } // Change region as needed
+  //env: { region: 'us-east-1' } // Change region as needed
+
+  env: {
+    region: config.region
+  },
+  tags: {
+    Environment: envName
+  }
 
 });

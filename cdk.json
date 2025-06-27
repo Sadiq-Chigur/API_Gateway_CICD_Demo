@@ -17,6 +17,20 @@
     ]
   },
   "context": {
+    "environments": {
+      "dev": {
+        "stageName": "dev",
+        "region": "us-east-1"
+      },
+      "stage": {
+        "stageName": "stage",
+        "region": "us-west-1"
+      },
+      "prod": {
+        "stageName": "prod",
+        "region": "eu-west-1"
+      }
+    },
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
     "@aws-cdk/core:checkSecretUsage": true,
     "@aws-cdk/core:target-partitions": [
