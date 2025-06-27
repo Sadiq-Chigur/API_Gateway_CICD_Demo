@@ -1,15 +1,18 @@
-
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Extended API",
-    "version": "1.0"
+    "title": "API Gateway Dynamic REST API",
+    "version": "1.0.0"
   },
   "paths": {
     "/hello": {
       "get": {
         "summary": "Hello World",
-        "responses": { "200": { "description": "OK" } },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
         "x-amazon-apigateway-integration": {
           "uri": "REPLACE_HELLO_URI",
           "httpMethod": "POST",
@@ -17,31 +20,44 @@
         }
       }
     },
-    "/user": {
-      "post": {
-        "summary": "Create user",
-        "responses": { "201": { "description": "User created" } },
+    "/status": {
+      "get": {
+        "summary": "Check system status",
+        "responses": {
+          "200": {
+            "description": "Healthy"
+          }
+        },
         "x-amazon-apigateway-integration": {
-          "uri": "REPLACE_USER_POST_URI",
+          "uri": "REPLACE_STATUS_URI",
           "httpMethod": "POST",
           "type": "aws_proxy"
         }
       }
     },
-    "/user/{id}": {
+    "/user": {
       "get": {
-        "summary": "Get user by ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" }
+        "summary": "Get user info",
+        "responses": {
+          "200": {
+            "description": "User found"
           }
-        ],
-        "responses": { "200": { "description": "User found" } },
+        },
         "x-amazon-apigateway-integration": {
           "uri": "REPLACE_USER_GET_URI",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      },
+      "post": {
+        "summary": "Create new user",
+        "responses": {
+          "201": {
+            "description": "User created"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "uri": "REPLACE_USER_POST_URI",
           "httpMethod": "POST",
           "type": "aws_proxy"
         }
@@ -50,7 +66,11 @@
     "/products": {
       "get": {
         "summary": "List products",
-        "responses": { "200": { "description": "Product list" } },
+        "responses": {
+          "200": {
+            "description": "List of products"
+          }
+        },
         "x-amazon-apigateway-integration": {
           "uri": "REPLACE_PRODUCTS_GET_URI",
           "httpMethod": "POST",
@@ -58,21 +78,14 @@
         }
       },
       "post": {
-        "summary": "Create product",
-        "responses": { "201": { "description": "Product created" } },
+        "summary": "Add a product",
+        "responses": {
+          "201": {
+            "description": "Product added"
+          }
+        },
         "x-amazon-apigateway-integration": {
           "uri": "REPLACE_PRODUCTS_POST_URI",
-          "httpMethod": "POST",
-          "type": "aws_proxy"
-        }
-      }
-    },
-    "/status": {
-      "get": {
-        "summary": "Service status",
-        "responses": { "200": { "description": "Service status" } },
-        "x-amazon-apigateway-integration": {
-          "uri": "REPLACE_STATUS_URI",
           "httpMethod": "POST",
           "type": "aws_proxy"
         }
@@ -80,6 +93,3 @@
     }
   }
 }
-*/
-
-
