@@ -90,6 +90,47 @@
           "type": "aws_proxy"
         }
       }
+    },
+    "/transaction/program/tier_level": {
+      "post": {
+        "summary": "Fetch tier level for a program",
+        "parameters": [
+          { "name": "country", "in": "header", "required": true, "schema": { "type": "string" }},
+          { "name": "locale", "in": "header", "required": true, "schema": { "type": "string" }}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/fetchTierSystemRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Success", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Empty" }}}},
+          "400": { "description": "Bad Request" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" }
+        },
+        "security": [{ "api_key": [] }],
+        "x-amazon-apigateway-request-validator": "Validate body, query string parameters, and headers",
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "uri": "http://${stageVariables.pointsUrl}/transactions/program/tier_level",
+          "type": "http",
+          "passthroughBehavior": "when_no_match",
+          "requestParameters": {
+            "integration.request.header.country": "method.request.header.country",
+            "integration.request.header.locale": "method.request.header.locale"
+          },
+          "responses": {
+            "default": { "statusCode": "200" },
+            "^4\\d{2}.*": { "statusCode": "400" },
+            "^404.*": { "statusCode": "404" },
+            "^5\\d{2}.*": { "statusCode": "500" }
+          }
+        }
+      }
     }
   }
 }
