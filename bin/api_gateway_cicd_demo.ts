@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
-import { ApiGateway_CICD_Demo_Stack } from '../lib/api_gateway_cicd_demo-stack';
+import { ApiGatewayCicdDemoStacks } from '../lib/api_gateway_cicd_demo-stack';
 
 const app = new cdk.App();
 
 const envName = app.node.tryGetContext('env') || 'dev';
 const config = app.node.tryGetContext('environments')[envName];
 
-new ApiGateway_CICD_Demo_Stack(app, 'ApiGateway_CICD_Demo_Stack', {
+new ApiGatewayCicdDemoStacks(app, 'ApiGatewayCicdDemoStacks', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */

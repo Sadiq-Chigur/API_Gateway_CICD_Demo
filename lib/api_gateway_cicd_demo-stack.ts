@@ -113,7 +113,7 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as fs from 'fs';
 import * as path from 'path';
 
-export class ApiGateway_CICD_Demo_Stack extends cdk.Stack {
+export class ApiGatewayCicdDemoStacks extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
