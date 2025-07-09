@@ -1,0 +1,137 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API Gateway Dynamic REST API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/hello": {
+      "get": {
+        "summary": "Hello World",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "uri": "REPLACE_HELLO_URI",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      }
+    },
+    "/status": {
+      "get": {
+        "summary": "Check system status",
+        "responses": {
+          "200": {
+            "description": "Healthy"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "uri": "REPLACE_STATUS_URI",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "summary": "Get user info",
+        "responses": {
+          "200": {
+            "description": "User found"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "uri": "REPLACE_USER_GET_URI",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      },
+      "post": {
+        "summary": "Create new user",
+        "responses": {
+          "201": {
+            "description": "User created"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "uri": "REPLACE_USER_POST_URI",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "summary": "List products",
+        "responses": {
+          "200": {
+            "description": "List of products"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "uri": "REPLACE_PRODUCTS_GET_URI",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      },
+      "post": {
+        "summary": "Add a product",
+        "responses": {
+          "201": {
+            "description": "Product added"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "uri": "REPLACE_PRODUCTS_POST_URI",
+          "httpMethod": "POST",
+          "type": "aws_proxy"
+        }
+      }
+    },
+    "/transaction/program/tier_level": {
+      "post": {
+        "summary": "Fetch tier level for a program",
+        "parameters": [
+          { "name": "country", "in": "header", "required": true, "schema": { "type": "string" }},
+          { "name": "locale", "in": "header", "required": true, "schema": { "type": "string" }}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/fetchTierSystemRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Success", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Empty" }}}},
+          "400": { "description": "Bad Request" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" }
+        },
+        "security": [{ "api_key": [] }],
+        "x-amazon-apigateway-request-validator": "Validate body, query string parameters, and headers",
+        "x-amazon-apigateway-integration": {
+            
+          "httpMethod": "POST",
+          "uri": "http://${stageVariables.pointsUrl}/transactions/program/tier_level",
+          "type": "http",
+          "passthroughBehavior": "when_no_match",
+          "requestParameters": {
+            "integration.request.header.country": "method.request.header.country",
+            "integration.request.header.locale": "method.request.header.locale"
+          },
+          "responses": {
+            "default": { "statusCode": "200" },
+            "^4\\d{2}.*": { "statusCode": "400" },
+            "^404.*": { "statusCode": "404" },
+            "^5\\d{2}.*": { "statusCode": "500" }
+          }
+        }
+      }
+    }
+  }
+}

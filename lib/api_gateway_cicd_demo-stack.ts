@@ -104,7 +104,7 @@ export class ApiGatewayCicdDemoStack extends cdk.Stack {
 }
 */
 
-
+/* //09/07/2025
 // lib/api_gateway_cicd_demo-stack.ts
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
@@ -157,6 +157,41 @@ export class ApiGatewayCicdDemoStacks extends cdk.Stack {
 
     new cdk.CfnOutput(this, 'APIEndpoint', {
       value: `${api.url}hello`,
+    });
+  }
+}
+*/
+
+
+// lib/api_gateway_cicd_demo-stack.ts
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as fs from 'fs';
+import * as path from 'path';
+
+export class ApiGatewayCicdDemoStacks extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    const apiDefinitionPath = path.join(__dirname, '../api-definition.json');
+    const openApiJson = JSON.parse(fs.readFileSync(apiDefinitionPath, 'utf8'));
+
+    const envStage = props?.tags?.['Environment'] || 'dev';
+
+    const api = new apigateway.SpecRestApi(this, `GlobalLoyaltyApi-${envStage}`, {
+      apiDefinition: apigateway.ApiDefinition.fromInline(openApiJson),
+      deployOptions: {
+        stageName: envStage,
+        variables: {
+          pointsUrl: `loyalty-backend-${envStage}.internal`,  // customize as per your backend DNS
+          usersUrl: `users-service-${envStage}.internal`       // customize as needed
+        }
+      },
+    });
+
+    new cdk.CfnOutput(this, 'ApiEndpoint', {
+      value: api.url,
     });
   }
 }
