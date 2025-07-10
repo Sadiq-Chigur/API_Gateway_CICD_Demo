@@ -168,19 +168,21 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as fs from 'fs';
+import * as yaml from 'js-yaml';
 import * as path from 'path';
 
 export class ApiGatewayCicdDemoStacks extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const apiDefinitionPath = path.join(__dirname, '../api-definition.json');
-    const openApiJson = JSON.parse(fs.readFileSync(apiDefinitionPath, 'utf8'));
+   // const apiDefinitionPath = path.join(__dirname, '../api-definition.json');
+    const apiDefinitionBody = yaml.load(fs.readFileSync('./api-definition/api.yaml', 'utf-8'));
+    //const openApiJson = JSON.parse(fs.readFileSync(apiDefinitionBody, 'utf8'));
 
     const envStage = props?.tags?.['Environment'] || 'dev';
 
     const api = new apigateway.SpecRestApi(this, `GlobalLoyaltyApi-${envStage}`, {
-      apiDefinition: apigateway.ApiDefinition.fromInline(openApiJson),
+      apiDefinition: apigateway.ApiDefinition.fromInline(apiDefinitionBody),
       deployOptions: {
         stageName: envStage,
         variables: {
