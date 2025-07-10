@@ -1,0 +1,21 @@
+{
+  "version": "44.0.0",
+  "files": {
+    "8f5b27f88157f3f73999fd0192d7f729b1be7364c1aa99056c67d9f3b557b9f8": {
+      "displayName": "ApiGatewayCicdDemoStacks Template",
+      "source": {
+        "path": "ApiGatewayCicdDemoStacks.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "8f5b27f88157f3f73999fd0192d7f729b1be7364c1aa99056c67d9f3b557b9f8.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
