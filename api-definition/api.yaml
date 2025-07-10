@@ -1139,7 +1139,7 @@ paths:
         uri: "http://${stageVariables.usersUrl}/application-status"
         responses:
           default:
-            statusCode: "220"
+            statusCode: "200"
         passthroughBehavior: "when_no_match"
 components:
   schemas:
