@@ -1121,6 +1121,23 @@ paths:
           application/json: "{\"statusCode\" : 200}"
         passthroughBehavior: "when_no_templates"
         timeoutInMillis: 29000
+  /users/application-status:
+    get:
+      responses:
+        "200":
+          description: "220 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        type: "http"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.usersUrl}/application-status"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
 components:
   schemas:
     getTransactionRequest:
