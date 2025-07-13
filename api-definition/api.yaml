@@ -1008,7 +1008,7 @@ paths:
           integration.request.querystring.profile: "method.request.querystring.profile"
           integration.request.header.locale: "method.request.header.locale"
         passthroughBehavior: "when_no_match"
-    /users/registration:
+  /users/registration:
     post:
       parameters:
       - name: "country"
