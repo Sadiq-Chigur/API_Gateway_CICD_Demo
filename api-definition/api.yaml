@@ -174,33 +174,6 @@
         }
       }
     },
-    "/points/application-status" : {
-      "get" : {
-        "responses" : {
-          "200" : {
-            "description" : "200 response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Empty"
-                }
-              }
-            }
-          }
-        },
-        "x-amazon-apigateway-integration" : {
-          "httpMethod" : "GET",
-          "uri" : "http://${stageVariables.pointsUrl}/application-status",
-          "responses" : {
-            "default" : {
-              "statusCode" : "200"
-            }
-          },
-          "passthroughBehavior" : "when_no_match",
-          "type" : "http"
-        }
-      }
-    },
     "/transactions" : {
       "post" : {
         "parameters" : [ {
@@ -418,6 +391,11 @@
           },
           "500" : {
             "description" : "500 response",
+            "content" : { }
+          }
+          ,
+          "550" : {
+            "description" : "550 response testing",
             "content" : { }
           }
         },

@@ -162,7 +162,7 @@ export class ApiGatewayCicdDemoStacks extends cdk.Stack {
 }
 */
 
-
+/*  // for json file
 // lib/api_gateway_cicd_demo-stack.ts
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
@@ -194,6 +194,30 @@ export class ApiGatewayCicdDemoStacks extends cdk.Stack {
 
     new cdk.CfnOutput(this, 'ApiEndpoint', {
       value: api.url,
+    });
+  }
+}
+*/
+
+
+// for yaml file
+import { Stack, StackProps } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as path from 'path';
+
+export class ApiGatewayCicdDemoStacks extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props);
+
+    // Create API Gateway from OpenAPI spec
+    const api = new apigateway.SpecRestApi(this, 'GlobalLoyaltyAPI', {
+      apiDefinition: apigateway.ApiDefinition.fromAsset(
+        path.join(__dirname, '../api-definition/api.yaml')
+      ),
+      endpointConfiguration: {
+        types: [apigateway.EndpointType.REGIONAL],
+      },
     });
   }
 }
