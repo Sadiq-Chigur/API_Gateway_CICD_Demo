@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-import * as cdk from 'aws-cdk-lib';
+
+/*import * as cdk from 'aws-cdk-lib';
 import { ApiGatewayCicdDemoStacks } from '../lib/api_gateway_cicd_demo-stack';
 
 const app = new cdk.App();
@@ -24,11 +25,20 @@ new ApiGatewayCicdDemoStacks(app, 'ApiGatewayCicdDemoStacks', {
 
   //env: { region: 'us-east-1' } // Change region as needed
 
-  env: {
+  /*env: {
     region: config.region
   },
   tags: {
     Environment: envName
   }
 
+});
+*/
+
+import * as cdk from 'aws-cdk-lib';
+import { ApiGatewayCicdDemoStacks } from '../lib/api_gateway_cicd_demo-stack';
+
+const app = new cdk.App();
+new ApiGatewayCicdDemoStacks(app, 'ApiGatewayStack', {
+  env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
 });

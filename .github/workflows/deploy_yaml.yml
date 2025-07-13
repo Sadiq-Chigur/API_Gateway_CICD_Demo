@@ -1,0 +1,50 @@
+name: 🚀 Deploy API Gateway with CDK
+
+on:
+  push:
+    branches: [test_demo_yaml]
+    paths:
+      - 'lib/**'
+      - 'bin/**'
+      - 'api-definition/**'
+      - '.github/workflows/deploy.yaml'
+      - 'package.json'
+      - 'cdk.json'
+  workflow_dispatch:
+
+env:
+  AWS_REGION: "us-east-1"
+  AWS_ACCOUNT_ID: "895183717019"  # Replace with your AWS Account ID
+  STAGE: dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🧾 Checkout source
+      uses: actions/checkout@v3
+
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: 📦 Install dependencies
+      run: npm ci
+
+    - name: 🔐 Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_IAM_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_IAM_SECRET_ACCESS_KEY}}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: 🛠 Bootstrap CDK (if first time)
+      run: |
+        npx cdk bootstrap aws://${{ env.AWS_ACCOUNT_ID }}/${{ env.AWS_REGION }}
+
+    - name: 🚀 Deploy API Gateway Stack
+      run: |
+        npx cdk deploy --require-approval never \
+          --context stage=${{ env.STAGE }}
