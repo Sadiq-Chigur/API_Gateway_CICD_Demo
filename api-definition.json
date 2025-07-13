@@ -2342,6 +2342,10 @@
           "500" : {
             "description" : "500 response",
             "content" : { }
+          },
+          "505" : {
+            "description" : "505 testing response",
+            "content" : { }
           }
         },
         "security" : [ {
@@ -2366,33 +2370,6 @@
           },
           "passthroughBehavior" : "when_no_templates",
           "timeoutInMillis" : 29000,
-          "type" : "http"
-        }
-      }
-    },
-    "/users/application-status" : {
-      "get" : {
-        "responses" : {
-          "200" : {
-            "description" : "200 response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Empty"
-                }
-              }
-            }
-          }
-        },
-        "x-amazon-apigateway-integration" : {
-          "httpMethod" : "GET",
-          "uri" : "http://${stageVariables.usersUrl}/application-status",
-          "responses" : {
-            "default" : {
-              "statusCode" : "200"
-            }
-          },
-          "passthroughBehavior" : "when_no_match",
           "type" : "http"
         }
       }
