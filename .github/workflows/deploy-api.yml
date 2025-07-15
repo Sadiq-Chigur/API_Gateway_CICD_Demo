@@ -15,11 +15,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        stage: [dev, staging, prod]
-      fail-fast: false
-    if: ${{ matrix.stage == github.event.inputs.stage }}
 
     env:
       AWS_REGION: us-east-1
@@ -58,3 +53,8 @@ jobs:
         run: |
           npx cdk deploy --require-approval never \
             --context stage=${{ matrix.stage }}
+
+      - name: 🚀 Deploy CDK Stack for ${{ github.event.inputs.stage }}
+        run: |
+          echo "Deploying environment: ${{ github.event.inputs.stage }}"
+          npx cdk deploy --all --require-approval never --context env=${{ github.event.inputs.stage }}
