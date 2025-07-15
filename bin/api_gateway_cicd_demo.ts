@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/*
 import * as cdk from 'aws-cdk-lib';
 import { ApiGatewayCicdDemoStacks } from '../lib/api_gateway_cicd_demo-stack';
 
@@ -24,11 +25,41 @@ new ApiGatewayCicdDemoStacks(app, 'ApiGatewayCicdDemoStacks', {
 
   //env: { region: 'us-east-1' } // Change region as needed
 
-  env: {
-    region: 'us-east-1'
+  /*env: {
+    region: config.region
   },
   tags: {
     Environment: envName
   }
 
+});*/
+
+import * as cdk from 'aws-cdk-lib';
+import { ApiGatewayCicdDemoStacks } from '../lib/api_gateway_cicd_demo-stack';
+import * as fs from 'fs';
+import * as path from 'path';
+
+const app = new cdk.App();
+
+// Get env name from context or fallback to 'dev'
+const envName = app.node.tryGetContext('env') || 'dev';
+
+// Path to the environment-specific config file
+const configPath = path.join(__dirname, `../config/${envName}.json`);
+
+if (!fs.existsSync(configPath)) {
+  throw new Error(`Missing environment config file: ${configPath}`);
+}
+
+const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+
+// Create the stack with env config
+new ApiGatewayCicdDemoStacks(app, `LoyaltyApiStack-${envName}`, {
+  env: {
+    account: config.account,
+    region: config.region,
+  },
+  tags: {
+    Environment: envName,
+  },
 });
