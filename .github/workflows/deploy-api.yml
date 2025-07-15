@@ -9,7 +9,7 @@ on:
         type: choice
         options:
             - dev
-            - staging
+            - stage
             - prod
 
 jobs:
