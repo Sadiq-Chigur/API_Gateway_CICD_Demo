@@ -49,11 +49,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: 🏗️ CDK Synth & Deploy - ${{ matrix.stage }}
-        run: |
-          npx cdk deploy --require-approval never \
-            --context stage=${{ matrix.stage }}
-
       - name: 🚀 Deploy CDK Stack for ${{ github.event.inputs.stage }}
         run: |
           echo "Deploying environment: ${{ github.event.inputs.stage }}"
