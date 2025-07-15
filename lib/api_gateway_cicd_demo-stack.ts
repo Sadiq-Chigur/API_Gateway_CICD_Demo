@@ -162,7 +162,7 @@ export class ApiGatewayCicdDemoStacks extends cdk.Stack {
 }
 */
 
-
+/*
 // lib/api_gateway_cicd_demo-stack.ts
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
@@ -175,6 +175,7 @@ export class ApiGatewayCicdDemoStacks extends cdk.Stack {
     super(scope, id, props);
 
     const apiDefinitionPath = path.join(__dirname, '../api-definition.json');
+    
     const openApiJson = JSON.parse(fs.readFileSync(apiDefinitionPath, 'utf8'));
 
     const envStage = props?.tags?.['Environment'] || 'dev';
@@ -195,4 +196,51 @@ export class ApiGatewayCicdDemoStacks extends cdk.Stack {
     });
   }
 }
+*/
 
+
+// lib/api_gateway_cicd_demo-stack.ts
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as fs from 'fs';
+import * as path from 'path';
+
+export class ApiGatewayCicdDemoStacks extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    const envStage = props?.tags?.['Environment'] || 'dev';
+
+    const apiDefinitionDir = path.join(__dirname, '../api-definition');
+    const envSpecificPath = path.join(apiDefinitionDir, `${envStage}.json`);
+    const fallbackPath = path.join(apiDefinitionDir, 'api.json');
+
+    let openApiJson: any;
+
+    if (fs.existsSync(envSpecificPath)) {
+      openApiJson = JSON.parse(fs.readFileSync(envSpecificPath, 'utf8'));
+      console.log(`✅ Loaded OpenAPI spec for '${envStage}'`);
+    } else if (fs.existsSync(fallbackPath)) {
+      openApiJson = JSON.parse(fs.readFileSync(fallbackPath, 'utf8'));
+      console.warn(`⚠️  OpenAPI spec for '${envStage}' not found. Falling back to 'api.json'`);
+    } else {
+      throw new Error(`❌ No OpenAPI spec found for '${envStage}' and no fallback available.`);
+    }
+
+    const api = new apigateway.SpecRestApi(this, `GlobalLoyaltyApi-${envStage}`, {
+      apiDefinition: apigateway.ApiDefinition.fromInline(openApiJson),
+      deployOptions: {
+        stageName: envStage,
+        variables: {
+          pointsUrl: `loyalty-backend-${envStage}.internal`,
+          usersUrl: `users-service-${envStage}.internal`,
+        },
+      },
+    });
+
+    new cdk.CfnOutput(this, 'ApiEndpoint', {
+      value: api.url,
+    });
+  }
+}

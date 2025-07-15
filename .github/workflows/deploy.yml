@@ -49,5 +49,11 @@ jobs:
         #   role-to-assume: arn:aws:iam::<account_id>:role/<GitHub_OIDC_Role>
         #   aws-region: ${{ env.AWS_REGION }}
 
-      - name: 🚀 CDK Deploy
-        run: npx cdk deploy --require-approval never --context env=dev
+      #- name: 🚀 CDK Deploy
+      #  run: npx cdk deploy --require-approval never --context env=dev
+
+      - name: CDK Deploy
+        run: |
+          npx cdk deploy --require-approval never --context env=${{ env.ENV }}
+        env:
+          ENV: staging
