@@ -270,7 +270,7 @@ export class ApiGatewayCicdDemoStack extends cdk.Stack {
       const openApiSpec = JSON.parse(fs.readFileSync(envPath, 'utf8'));
 
       new apigateway.SpecRestApi(this, `SpecApi-${envStage}`, {
-        apiDefinition: apigateway.ApiDefinition.fromInline(openApiSpec),
+        apiDefinition: apigateway.ApiDefinition.fromAsset(envPath),
         restApiName: `GlobalLoyaltyApi-${envStage}`,
         deployOptions: {
           stageName: envStage,
