@@ -2408,6 +2408,10 @@
           "500" : {
             "description" : "500 response",
             "content" : { }
+          },
+          "505" : {
+            "description" : "505 response",
+            "content" : { }
           }
         },
         "security" : [ {
@@ -2448,11 +2452,7 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "400 response",
-            "content" : { }
-          },
+          }
         },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "GET",
