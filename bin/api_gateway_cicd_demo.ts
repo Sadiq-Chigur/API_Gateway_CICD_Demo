@@ -35,7 +35,7 @@ new ApiGatewayCicdDemoStacks(app, 'ApiGatewayCicdDemoStacks', {
 });*/
 
 import * as cdk from 'aws-cdk-lib';
-import { ApiGatewayCicdDemoStacks } from '../lib/api_gateway_cicd_demo-stack';
+import { ApiGatewayCicdDemoStack } from '../lib/api_gateway_cicd_demo-stack';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -54,7 +54,7 @@ if (!fs.existsSync(configPath)) {
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
 // Create the stack with env config
-new ApiGatewayCicdDemoStacks(app, `LoyaltyApiStack-${envName}`, {
+new ApiGatewayCicdDemoStack(app, `LoyaltyApiStack-${envName}`, {
   env: {
     account: config.account,
     region: config.region,
