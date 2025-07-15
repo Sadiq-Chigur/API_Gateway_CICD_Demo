@@ -34,6 +34,8 @@ new ApiGatewayCicdDemoStacks(app, 'ApiGatewayCicdDemoStacks', {
 
 });*/
 
+/*
+// Commented at 8:50pm on 15 july 2025 
 import * as cdk from 'aws-cdk-lib';
 import { ApiGatewayCicdDemoStack } from '../lib/api_gateway_cicd_demo-stack';
 import * as fs from 'fs';
@@ -63,3 +65,37 @@ new ApiGatewayCicdDemoStack(app, `LoyaltyApiStack-${envName}`, {
     Environment: envName,
   },
 });
+*/
+
+
+
+
+/////////////////////////////////////////
+/*
+import * as cdk from 'aws-cdk-lib';
+import { ApiGatewayCicdDemoStack } from '../lib/api_gateway_cicd_demo-stack';
+
+const app = new cdk.App();
+const envName = app.node.tryGetContext('env');
+
+if (!envName) {
+  throw new Error("Provide environment via context: -c env=dev|stage|prod");
+}
+
+new ApiGatewayCicdDemoStack(app, `ApiGwStack-${envName}`, {
+  env: {
+    region: 'us-east-1'
+  }
+}, envName);
+*/
+
+
+import * as cdk from 'aws-cdk-lib';
+import { ApiGatewayCicdDemoStack } from '../lib/api_gateway_cicd_demo-stack';
+
+const app = new cdk.App();
+
+new ApiGatewayCicdDemoStack(app, 'ApiGwSharedStack', {
+  env: { region: 'us-east-1' }
+});
+

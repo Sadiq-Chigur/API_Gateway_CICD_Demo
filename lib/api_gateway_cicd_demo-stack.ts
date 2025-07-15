@@ -325,6 +325,9 @@ export class ApiGatewayCicdDemoStack extends cdk.Stack {
   }
 }*/
 
+
+/*
+// Commented at 8:50pm on 15 july 2025 
 // lib/api_gateway_cicd_demo-stack.ts
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
@@ -377,7 +380,7 @@ export class ApiGatewayCicdDemoStack extends cdk.Stack {
       },
     });
   }
-}
+}*/
 
 
 /*
@@ -444,5 +447,94 @@ export class ApiGatewayCicdDemoStack extends cdk.Stack {
     });
   }
 }*/
+
+
+
+
+
+/////////////////////////////
+
+/*
+import { Stack, StackProps, aws_apigateway as apigw } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as path from 'path';
+
+export class ApiGatewayCicdDemoStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps, envName?: string) {
+    super(scope, id, props);
+
+    if (!envName) throw new Error("Missing environment name");
+
+    const specPath = path.join(__dirname, '..', 'api-definition', `${envName}.json`);
+
+    new apigw.SpecRestApi(this, `ApiGw-${envName}`, {
+      apiDefinition: apigw.ApiDefinition.fromAsset(specPath),
+      deployOptions: {
+        stageName: envName,
+        variables: {
+          pointsUrl: `https://${envName}.api.skechers.com`, // override if needed
+          contentfulUrl: `https://${envName}.api.skechers.com`,
+          usersUrl: `https://${envName}.api.skechers.com`
+        }
+      },
+      restApiName: `LoyaltyApi-${envName}`,
+      description: `API Gateway for ${envName} environment`,
+    });
+  }
+}
+*/
+
+import { Stack, StackProps, aws_apigateway as apigw, CfnOutput } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as fs from 'fs';
+import * as path from 'path';
+
+export class ApiGatewayCicdDemoStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props);
+
+    const api_definition = {
+      dev: 'dev.json',
+      stage: 'stage.json',
+      prod: 'prod.json'
+    };
+
+    const restApi = new apigw.CfnRestApi(this, 'LoyaltyRestApi', {
+      name: 'LoyaltyApiGateway',
+      description: 'Single API Gateway with multiple OpenAPI-based stages',
+      failOnWarnings: true,
+      endpointConfiguration: {
+        types: ['REGIONAL']
+      },
+      body: JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'api_definition', api_definition.dev), 'utf8')) // any one to initialize
+    });
+
+    for (const [env, filename] of Object.entries(api_definition)) {
+      const specBody = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'api_definition', filename), 'utf8'));
+
+      const deployment = new apigw.CfnDeployment(this, `Deployment-${env}`, {
+        restApiId: restApi.ref,
+        description: `${env} deployment`
+      });
+
+      new apigw.CfnStage(this, `Stage-${env}`, {
+        restApiId: restApi.ref,
+        deploymentId: deployment.ref,
+        stageName: env,
+        variables: {
+          pointsUrl: `${env}.api.skechers.com`,
+          contentfulUrl: `${env}.api.skechers.com`,
+          usersUrl: `${env}.api.skechers.com`
+        }
+      });
+
+      new CfnOutput(this, `Url-${env}`, {
+        value: `https://${restApi.ref}.execute-api.${this.region}.amazonaws.com/${env}`
+      });
+    }
+  }
+}
+
+
 
 
