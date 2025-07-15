@@ -669,7 +669,8 @@
           "type" : "http"
         }
       }
-    },
+    }
+  },
   "components" : {
     "schemas" : {
       "getTransactionRequest" : {
@@ -763,5 +764,4 @@
       "validateRequestBody" : true
     }
   }
-}
 }
