@@ -56,4 +56,6 @@ jobs:
         run: |
           npx cdk deploy --require-approval never --context env=${{ env.ENV }}
         env:
-          ENV: staging
+          ENV: dev
+
+          
