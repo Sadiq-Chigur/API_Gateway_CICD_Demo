@@ -25,7 +25,7 @@ new ApiGatewayCicdDemoStacks(app, 'ApiGatewayCicdDemoStacks', {
   //env: { region: 'us-east-1' } // Change region as needed
 
   env: {
-    region: config.region
+    region: 'us-east-1'
   },
   tags: {
     Environment: envName
