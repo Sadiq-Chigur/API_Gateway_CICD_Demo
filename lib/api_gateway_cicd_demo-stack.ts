@@ -259,55 +259,55 @@ export class ApiGatewayCicdDemoStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const apiDefinitionDir = path.join(__dirname, '../api-definition');
     const envStages = ['dev', 'stage', 'prod'];
+    const apiDefinitionDir = path.join(__dirname, '../api-definition');
 
-    // Create a single base API
+    // Dummy deployment and stage to satisfy CDK requirement
+    const dummyDeployment = new apigateway.Deployment(this, 'DummyDeployment', {
+      api: undefined as any // placeholder, will not be used since deploy: false
+    });
+    const dummyStage = new apigateway.Stage(this, 'DummyStage', {
+      deployment: dummyDeployment,
+      stageName: 'placeholder',
+    });
+
+    // Base API with dummy stage
     const baseApi = new apigateway.RestApi(this, 'GlobalLoyaltyApi', {
       restApiName: 'Global-Loyalty-MultiStage',
-      description: 'Global Loyalty API with Multi-Stage Specs',
+      description: 'Global Loyalty API with Multi-Stage OpenAPI Specs',
       deploy: false,
     });
 
-    for (const stageName of envStages) {
-      const specPath = path.join(apiDefinitionDir, `${stageName}.json`);
-      if (!fs.existsSync(specPath)) {
-        console.warn(`⚠️ Spec not found for ${stageName}, skipping...`);
+    for (const envStage of envStages) {
+      const envPath = path.join(apiDefinitionDir, `${envStage}.json`);
+      if (!fs.existsSync(envPath)) {
+        console.warn(`⚠️ Skipping '${envStage}' – File not found: ${envPath}`);
         continue;
       }
 
-      const spec = JSON.parse(fs.readFileSync(specPath, 'utf8'));
+      const openApiSpec = JSON.parse(fs.readFileSync(envPath, 'utf8'));
 
-      // Convert JSON spec to string to set in bodyS3Location or body
-      const specBody = JSON.stringify(spec);
-
-      // Use a low-level CfnDeployment that allows assigning specific stage configuration
-      const deployment = new apigateway.CfnDeployment(this, `Deployment-${stageName}`, {
-        restApiId: baseApi.restApiId,
+      const specApi = new apigateway.SpecRestApi(this, `SpecApi-${envStage}`, {
+        apiDefinition: apigateway.ApiDefinition.fromInline(openApiSpec),
+        deploy: false,
       });
 
-      // Create stage manually
-      new apigateway.CfnStage(this, `Stage-${stageName}`, {
-        restApiId: baseApi.restApiId,
-        stageName,
-        deploymentId: deployment.ref,
+      const deployment = new apigateway.Deployment(this, `Deployment-${envStage}`, {
+        api: baseApi,
+      });
+
+      new apigateway.Stage(this, `Stage-${envStage}`, {
+        deployment,
+        stageName: envStage,
         variables: {
-          pointsUrl: `loyalty-backend-${stageName}.internal`,
-          usersUrl: `users-service-${stageName}.internal`,
+          pointsUrl: `loyalty-backend-${envStage}.internal`,
+          usersUrl: `users-service-${envStage}.internal`,
         },
       });
-
-      // Inject OpenAPI into base API
-      // NOTE: Workaround because CDK doesn't support multi-specs for single API.
-      // You must deploy this part one by one using context/environment or synth only one at a time
-      // You cannot assign different specs per stage in one deploy without replacements.
     }
 
-    new cdk.CfnOutput(this, 'RestApiId', {
+    new cdk.CfnOutput(this, 'BaseApiId', {
       value: baseApi.restApiId,
-    });
-    new cdk.CfnOutput(this, 'RestApiRootUrl', {
-      value: baseApi.url,
     });
   }
 }

@@ -2,7 +2,7 @@ name: Deploy CDK API Gateway
 
 on:
   push:
-    branches: [main]
+    branches: [main-branch]
   workflow_dispatch:
 
 jobs:
