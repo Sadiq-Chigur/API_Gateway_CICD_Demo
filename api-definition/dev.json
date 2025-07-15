@@ -179,7 +179,7 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" {
+        "x-amazon-apigateway-request-validator": {
             "Validate body, query string parameters, and headers": {
                 "validateRequestParameters": true,
                 "validateRequestBody": true
