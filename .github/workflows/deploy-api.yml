@@ -1,0 +1,60 @@
+name: Deploy Multi-Stage API Gateway
+
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: 'Stage to deploy (dev, stage, prod, all)'
+        required: true
+        type: choice
+        options:
+            - dev
+            - staging
+            - prod
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        stage: [dev, staging, prod]
+      fail-fast: false
+    if: ${{ matrix.stage == github.event.inputs.stage }}
+
+    env:
+      AWS_REGION: us-east-1
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      #- name: 📦 Install dependencies
+      #  run: |
+      #    npm install -g aws-cdk
+      #    npm install
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🔍 Validate resource-map ↔ lambda files
+        run: node validate-resource-map.js
+
+      - name: 🛠️ Build CDK
+        run: npm run build
+
+      - name: 🔐 Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: 🏗️ CDK Synth & Deploy - ${{ matrix.stage }}
+        run: |
+          npx cdk deploy --require-approval never \
+            --context stage=${{ matrix.stage }}
