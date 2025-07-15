@@ -247,7 +247,65 @@ export class ApiGatewayCicdDemoStacks extends cdk.Stack {
 */
 
 
+// lib/api_gateway_cicd_demo-stack.ts
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as fs from 'fs';
+import * as path from 'path';
 
+export class ApiGatewayCicdDemoStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    const envStages = ['dev', 'stage', 'prod'];
+    const apiDefinitionDir = path.join(__dirname, '../api-definition');
+
+    // 👇 create a dummy REST API initially
+    const baseApi = new apigateway.RestApi(this, 'GlobalLoyaltyApi', {
+      restApiName: 'Global-Loyalty-API',
+      description: 'Global Loyalty API with Multi-Stage OpenAPI Specs',
+      deploy: false, // we'll handle deployments manually
+    });
+
+    for (const envStage of envStages) {
+      const envPath = path.join(apiDefinitionDir, `${envStage}.json`);
+      if (!fs.existsSync(envPath)) {
+        console.warn(`⚠️ Skipping '${envStage}' – File not found: ${envPath}`);
+        continue;
+      }
+
+      const openApiSpec = JSON.parse(fs.readFileSync(envPath, 'utf8'));
+
+      const specApi = new apigateway.SpecRestApi(this, `SpecApi-${envStage}`, {
+        apiDefinition: apigateway.ApiDefinition.fromInline(openApiSpec),
+        deploy: false,
+      });
+
+      const deployment = new apigateway.Deployment(this, `Deployment-${envStage}`, {
+        api: baseApi,
+      });
+
+      new apigateway.Stage(this, `Stage-${envStage}`, {
+        deployment,
+        stageName: envStage,
+        variables: {
+          pointsUrl: `loyalty-backend-${envStage}.internal`,
+          usersUrl: `users-service-${envStage}.internal`,
+        },
+      });
+    }
+
+    new cdk.CfnOutput(this, 'BaseApiId', {
+      value: baseApi.restApiId,
+    });
+  }
+}
+
+
+
+
+/*
 // lib/api_gateway_cicd_demo-stack.ts
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
@@ -310,6 +368,6 @@ export class ApiGatewayCicdDemoStack extends cdk.Stack {
       value: baseApi.restApiId,
     });
   }
-}
+}*/
 
 

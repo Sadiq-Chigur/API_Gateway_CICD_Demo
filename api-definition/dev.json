@@ -65,7 +65,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate query string parameters and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "GET",
           "uri" : "http://${stageVariables.pointsUrl}/points/profile",
@@ -174,7 +179,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate body, query string parameters, and headers",
+        "x-amazon-apigateway-request-validator" {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "POST",
           "uri" : "http://${stageVariables.pointsUrl}/points/reinstate/offer",
@@ -259,7 +269,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate body, query string parameters, and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "POST",
           "uri" : "http://${stageVariables.pointsUrl}/points/spend",
@@ -343,7 +358,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate body, query string parameters, and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "POST",
           "uri" : "http://${stageVariables.pointsUrl}/points/offers/fetch_offers",
@@ -434,7 +454,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate query string parameters and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "GET",
           "uri" : "http://${stageVariables.usersUrl}/users/{userId}",
@@ -536,7 +561,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate body, query string parameters, and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "PUT",
           "uri" : "http://${stageVariables.usersUrl}/users/{userId}",
@@ -626,7 +656,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate query string parameters and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "DELETE",
           "uri" : "http://${stageVariables.usersUrl}/users/{userId}",
@@ -707,7 +742,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate query string parameters and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "GET",
           "uri" : "http://${stageVariables.usersUrl}/users/list",
@@ -793,7 +833,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate body, query string parameters, and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "GET",
           "uri" : "http://${stageVariables.pointsUrl}/points/audit_logs",
@@ -883,7 +928,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate body, query string parameters, and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "POST",
           "uri" : "http://${stageVariables.pointsUrl}/points/redeem",
@@ -965,7 +1015,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate body, query string parameters, and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "POST",
           "uri" : "http://${stageVariables.pointsUrl}/points/redeem/offer",
@@ -1046,7 +1101,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate body, query string parameters, and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "POST",
           "uri" : "http://${stageVariables.pointsUrl}/points/offers/user_rewards",
@@ -1195,7 +1255,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate query string parameters and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "GET",
           "uri" : "http://${stageVariables.usersUrl}/users",
@@ -1294,7 +1359,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate body, query string parameters, and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "POST",
           "uri" : "http://${stageVariables.usersUrl}/users",
@@ -1433,7 +1503,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate body, query string parameters, and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "POST",
           "uri" : "http://${stageVariables.pointsUrl}/points/deposit",
@@ -1520,7 +1595,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate query string parameters and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "GET",
           "uri" : "http://${stageVariables.usersUrl}/users/external/{externalid}",
@@ -1611,7 +1691,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate query string parameters and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "GET",
           "uri" : "http://${stageVariables.usersUrl}/users/search",
@@ -1691,7 +1776,12 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-amazon-apigateway-request-validator" : "Validate query string parameters and headers",
+        "x-amazon-apigateway-request-validator" : {
+            "Validate body, query string parameters, and headers": {
+                "validateRequestParameters": true,
+                "validateRequestBody": true
+            }
+        },
         "x-amazon-apigateway-integration" : {
           "httpMethod" : "GET",
           "uri" : "http://${stageVariables.pointsUrl}/points/available_certificates",
