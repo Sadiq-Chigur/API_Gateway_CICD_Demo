@@ -246,6 +246,8 @@ export class ApiGatewayCicdDemoStacks extends cdk.Stack {
 }
 */
 
+/*
+// deploy api individually for each environment
 // lib/api_gateway_cicd_demo-stack.ts
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
@@ -283,7 +285,43 @@ export class ApiGatewayCicdDemoStack extends cdk.Stack {
     }
   }
 }
+*/
 
+// lib/api_gateway_cicd_demo-stack.ts
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as fs from 'fs';
+import * as path from 'path';
+
+export class ApiGatewayCicdDemoStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    const envStage = this.node.tryGetContext('env');
+    if (!envStage) {
+      throw new Error("Missing context variable 'env'. Use --context env=dev|stage|prod");
+    }
+
+    const apiDefinitionDir = path.join(__dirname, '../api-definition');
+    const envPath = path.join(apiDefinitionDir, `${envStage}.json`);
+    if (!fs.existsSync(envPath)) {
+      throw new Error(`❌ OpenAPI file for '${envStage}' not found: ${envPath}`);
+    }
+
+    const api = new apigateway.SpecRestApi(this, 'GlobalLoyaltyApi', {
+      apiDefinition: apigateway.ApiDefinition.fromAsset(envPath),
+      restApiName: 'GlobalLoyaltyApi',
+      deployOptions: {
+        stageName: envStage,
+        variables: {
+          pointsUrl: `loyalty-backend-${envStage}.internal`,
+          usersUrl: `users-service-${envStage}.internal`,
+        },
+      },
+    });
+  }
+}
 
 
 /*
