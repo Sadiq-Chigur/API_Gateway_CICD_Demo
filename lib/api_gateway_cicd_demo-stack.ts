@@ -287,7 +287,6 @@ export class ApiGatewayCicdDemoStack extends cdk.Stack {
 }
 */
 
-// lib/api_gateway_cicd_demo-stack.ts
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
@@ -298,27 +297,39 @@ export class ApiGatewayCicdDemoStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const envStage = this.node.tryGetContext('env');
-    if (!envStage) {
-      throw new Error("Missing context variable 'env'. Use --context env=dev|stage|prod");
-    }
-
+    const env = this.node.tryGetContext('env') || 'dev';
     const apiDefinitionDir = path.join(__dirname, '../api-definition');
-    const envPath = path.join(apiDefinitionDir, `${envStage}.json`);
+    const envPath = path.join(apiDefinitionDir, `${env}.json`);
+
     if (!fs.existsSync(envPath)) {
-      throw new Error(`❌ OpenAPI file for '${envStage}' not found: ${envPath}`);
+      throw new Error(`OpenAPI definition not found for stage '${env}': ${envPath}`);
     }
 
-    const api = new apigateway.SpecRestApi(this, 'GlobalLoyaltyApi', {
-      apiDefinition: apigateway.ApiDefinition.fromAsset(envPath),
+    const openApiSpec = JSON.parse(fs.readFileSync(envPath, 'utf8'));
+
+    // Shared API Gateway (across all environments)
+    const api = new apigateway.RestApi(this, 'GlobalLoyaltyApi', {
       restApiName: 'GlobalLoyaltyApi',
-      deployOptions: {
-        stageName: envStage,
-        variables: {
-          pointsUrl: `loyalty-backend-${envStage}.internal`,
-          usersUrl: `users-service-${envStage}.internal`,
-        },
+      deploy: false, // We'll handle deployment manually
+    });
+
+    // Add methods/resources based on OpenAPI
+    const deployment = new apigateway.Deployment(this, `Deployment-${env}`, {
+      api,
+    });
+
+    new apigateway.Stage(this, `Stage-${env}`, {
+      deployment,
+      stageName: env,
+      variables: {
+        pointsUrl: `loyalty-backend-${env}.internal`,
+        usersUrl: `users-service-${env}.internal`,
       },
+    });
+
+    // OPTIONAL: Output URL
+    new cdk.CfnOutput(this, `StageUrl-${env}`, {
+      value: `https://${api.restApiId}.execute-api.${this.region}.amazonaws.com/${env}`,
     });
   }
 }
