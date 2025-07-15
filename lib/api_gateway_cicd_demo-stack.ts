@@ -287,6 +287,9 @@ export class ApiGatewayCicdDemoStack extends cdk.Stack {
 }
 */
 
+/*
+// creating a same name API Gateway for each environment
+// lib/api_gateway_cicd_demo-stack.ts
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
@@ -297,39 +300,81 @@ export class ApiGatewayCicdDemoStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const env = this.node.tryGetContext('env') || 'dev';
-    const apiDefinitionDir = path.join(__dirname, '../api-definition');
-    const envPath = path.join(apiDefinitionDir, `${env}.json`);
+    const envStage = this.node.tryGetContext('env');
+    if (!envStage) {
+      throw new Error("Missing context variable 'env'. Use --context env=dev|stage|prod");
+    }
 
+    const apiDefinitionDir = path.join(__dirname, '../api-definition');
+    const envPath = path.join(apiDefinitionDir, `${envStage}.json`);
     if (!fs.existsSync(envPath)) {
-      throw new Error(`OpenAPI definition not found for stage '${env}': ${envPath}`);
+      throw new Error(`❌ OpenAPI file for '${envStage}' not found: ${envPath}`);
+    }
+
+    const api = new apigateway.SpecRestApi(this, 'GlobalLoyaltyApi', {
+      apiDefinition: apigateway.ApiDefinition.fromAsset(envPath),
+      restApiName: 'GlobalLoyaltyApi',
+      deployOptions: {
+        stageName: envStage,
+        variables: {
+          pointsUrl: `loyalty-backend-${envStage}.internal`,
+          usersUrl: `users-service-${envStage}.internal`,
+        },
+      },
+    });
+  }
+}*/
+
+// lib/api_gateway_cicd_demo-stack.ts
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as fs from 'fs';
+import * as path from 'path';
+
+export class ApiGatewayCicdDemoStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    const stage = this.node.tryGetContext('env');
+    if (!stage) {
+      throw new Error("❌ Missing context variable 'env'. Use --context env=<stage>");
+    }
+
+    const envPath = path.join(__dirname, `../api-definition/${stage}.json`);
+    if (!fs.existsSync(envPath)) {
+      throw new Error(`❌ OpenAPI file for stage '${stage}' not found at ${envPath}`);
     }
 
     const openApiSpec = JSON.parse(fs.readFileSync(envPath, 'utf8'));
 
-    // Shared API Gateway (across all environments)
+    // Create single shared API Gateway
     const api = new apigateway.RestApi(this, 'GlobalLoyaltyApi', {
       restApiName: 'GlobalLoyaltyApi',
-      deploy: false, // We'll handle deployment manually
+      description: 'Shared API Gateway for all stages',
+      deploy: false, // disable auto-deploy, we will manage it manually
     });
 
-    // Add methods/resources based on OpenAPI
-    const deployment = new apigateway.Deployment(this, `Deployment-${env}`, {
+    // Add dummy method to avoid validation error
+    api.root.addMethod('GET', new apigateway.MockIntegration({
+      integrationResponses: [{ statusCode: "200" }],
+      requestTemplates: { "application/json": '{"statusCode": 200}' },
+    }), {
+      methodResponses: [{ statusCode: "200" }],
+    });
+
+    // Deployment & stage specific configuration
+    const deployment = new apigateway.Deployment(this, `Deployment-${stage}`, {
       api,
     });
 
-    new apigateway.Stage(this, `Stage-${env}`, {
+    new apigateway.Stage(this, `Stage-${stage}`, {
       deployment,
-      stageName: env,
+      stageName: stage,
       variables: {
-        pointsUrl: `loyalty-backend-${env}.internal`,
-        usersUrl: `users-service-${env}.internal`,
+        pointsUrl: `loyalty-backend-${stage}.internal`,
+        usersUrl: `users-service-${stage}.internal`,
       },
-    });
-
-    // OPTIONAL: Output URL
-    new cdk.CfnOutput(this, `StageUrl-${env}`, {
-      value: `https://${api.restApiId}.execute-api.${this.region}.amazonaws.com/${env}`,
     });
   }
 }
