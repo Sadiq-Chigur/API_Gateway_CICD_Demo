@@ -1,0 +1,79 @@
+{
+ "Resources": {
+  "Deploymentdev": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "dev deployment",
+    "RestApiId": {
+     "Fn::ImportValue": "SharedApiGatewayId"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStage-dev/Deployment-dev"
+   }
+  },
+  "Stagedev": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "Deploymentdev"
+    },
+    "RestApiId": {
+     "Fn::ImportValue": "SharedApiGatewayId"
+    },
+    "StageName": "dev",
+    "Variables": {
+     "pointsUrl": "dev.api.skechers.com",
+     "contentfulUrl": "dev.api.skechers.com",
+     "usersUrl": "dev.api.skechers.com"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStage-dev/Stage-dev"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/yXFyw2DMAwA0Fm4J24aCTEAnaAMULnEQeZjUGMaRYjdOfAuz4N3NbgKc7J9mOzMXzg6xX4ymNMHNx5QKWOBo43yom1ey0Kipo3SKQ50nkbWQDCmx997eDbgqjEx298uygvB+/4CK7M+bmkAAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStage-dev/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -1,65 +1,82 @@
 #!/usr/bin/env node
+
+import * as cdk from 'aws-cdk-lib';
+import { BaseApiStack } from '../lib/base-api-stack';
+import { StageStack } from '../lib/staging-stack';
+import { DevStack } from '../lib/dev-stack';
+
+const app = new cdk.App();
+const envName = app.node.tryGetContext('env'); // pass with -c env=dev
+
+console.log(`Environment: ${envName}`);
+
+if (!envName) throw new Error('Must pass -c env=dev|staging|prod');
+
+if (envName === 'base') {
+  console.log(`Environmentin if part of base : ${envName}`);
+  new BaseApiStack(app, 'ApiGatewayBaseStack', {
+    env: { region: 'us-east-1' }
+  });
+} else if (['dev', 'staging', 'prod'].includes(envName)) {
+  console.log(`Environment in else part : ${envName}`);
+  new StageStack(app, `ApiGatewayStage-${envName}`, {
+    env: { region: 'us-east-1' },
+    restApiId: cdk.Fn.importValue('SharedApiGatewayId'),
+    stageName: envName
+  });
+} else {
+  throw new Error(`Unknown environment: ${envName}`);
+}
+/*} else {
+  console.log(`Environment in else part : ${envName}`);
+  const restApiId = cdk.Fn.importValue('SharedApiGatewayId');
+  new StageStack(app, `ApiGatewayStage-${envName}`, {
+    env: { region: 'us-east-1' },
+    restApiId,
+    stageName: envName
+  });
+}*/
+
+
 /*
 import * as cdk from 'aws-cdk-lib';
-import { ApiGatewayCicdDemoStacks } from '../lib/api_gateway_cicd_demo-stack';
+import { BaseStack } from '../lib/base-stack';
+import { EnvStageStack } from '../lib/env-stage-stack';
 
 const app = new cdk.App();
+const env = app.node.tryGetContext('env');
 
-const envName = app.node.tryGetContext('env') || 'dev';
-const config = app.node.tryGetContext('environments')[envName];
+if (!env) throw new Error("Context variable 'env' is required. Use: cdk deploy -c env=dev");
 
-new ApiGatewayCicdDemoStacks(app, 'ApiGatewayCicdDemoStacks', {
-  /* If you don't specify 'env', this stack will be environment-agnostic.
-   * Account/Region-dependent features and context lookups will not work,
-   * but a single synthesized template can be deployed anywhere. */
-
-  /* Uncomment the next line to specialize this stack for the AWS Account
-   * and Region that are implied by the current CLI configuration. */
-  // env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
-
-  /* Uncomment the next line if you know exactly what Account and Region you
-   * want to deploy the stack to. */
-  // env: { account: '123456789012', region: 'us-east-1' },
-
-  /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
-
-  //env: { region: 'us-east-1' } // Change region as needed
-
-  /*env: {
-    region: config.region
-  },
-  tags: {
-    Environment: envName
-  }
-
-});*/
-
-import * as cdk from 'aws-cdk-lib';
-import { ApiGatewayCicdDemoStack } from '../lib/api_gateway_cicd_demo-stack';
-import * as fs from 'fs';
-import * as path from 'path';
-
-const app = new cdk.App();
-
-// Get env name from context or fallback to 'dev'
-const envName = app.node.tryGetContext('env') || 'dev';
-
-// Path to the environment-specific config file
-const configPath = path.join(__dirname, `../config/${envName}.json`);
-
-if (!fs.existsSync(configPath)) {
-  throw new Error(`Missing environment config file: ${configPath}`);
-}
-
-const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-
-// Create the stack with env config
-new ApiGatewayCicdDemoStack(app, `LoyaltyApiStack-${envName}`, {
-  env: {
-    account: config.account,
-    region: config.region,
-  },
-  tags: {
-    Environment: envName,
+if (env === 'base') {
+  new BaseStack(app, 'ApiGwSharedStack');
+} else {
+  new EnvStageStack(app, `EnvStageStack-${env}`, {
+  env: { account, region },
+  stage: env,
+  api: sharedApi.api, // this assumes sharedApi exposes the API as `.api`
+  stageVars: {
+    pointsUrl: 'mock.service.internal',       // replace with actual per-env values
+    contentfulUrl: 'mock.content.internal',
+    usersUrl: 'mock.users.internal',
   },
 });
+}
+*/
+
+/*
+import * as cdk from 'aws-cdk-lib';
+import { BaseStack } from '../lib/base-stack';
+import { EnvStageStack } from '../lib/env-stage-stack';
+
+const app = new cdk.App();
+const env = app.node.tryGetContext('env');
+
+if (!env) throw new Error("Context variable 'env' is required. Use: cdk deploy -c env=dev");
+
+if (env === 'base') {
+  new BaseStack(app, 'ApiGwSharedStack');
+} else {
+  new EnvStageStack(app, `ApiGw-${env}-StageStack`, { stageName: env });
+}
+*/

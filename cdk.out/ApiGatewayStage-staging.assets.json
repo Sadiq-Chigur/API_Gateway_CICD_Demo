@@ -1,0 +1,21 @@
+{
+  "version": "45.0.0",
+  "files": {
+    "3f11b6e3a03bb3b02fd3646c473f23d7a3dd935b1629b439804555942e3eef7a": {
+      "displayName": "ApiGatewayStage-staging Template",
+      "source": {
+        "path": "ApiGatewayStage-staging.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1-e99c56ac": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "3f11b6e3a03bb3b02fd3646c473f23d7a3dd935b1629b439804555942e3eef7a.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
